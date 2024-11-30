@@ -1,0 +1,25 @@
+version: v2
+clean: true
+managed:
+  enabled: true
+  disable:
+    - module: buf.build/googleapis/googleapis
+  override:
+    - file_option: go_package_prefix
+      value: github.com/toward-the-stars/stars-openproto/go
+
+plugins:
+
+  - remote: buf.build/protocolbuffers/go
+    out: go
+    opt:
+      - paths=source_relative
+
+  - remote: buf.build/grpc/go
+    out: go
+    opt:
+      - paths=source_relative
+
+  - local: protoc-gen-es
+    out: es/src/gen
+    opt: target=ts

@@ -1,0 +1,28 @@
+version: v2
+
+modules:
+  - path: proto/toward-the-stars
+  #   name: buf.build/toward-the-stars/model
+  #   includes:
+  #     - proto/toward-the-stars/model
+
+  # - path: proto/toward-the-stars
+  #   name: buf.build/toward-the-stars/frontapi
+  #   includes:
+  #     - proto/toward-the-stars/frontapi
+
+  # - path: proto/toward-the-stars
+  #   name: buf.build/toward-the-stars/tellerapi
+  #   includes:
+  #     - toward-the-stars/tellerapi
+
+deps:
+  - buf.build/googleapis/googleapis
+  - buf.build/grpc/grpc
+
+lint:
+  enum_zero_value_suffix: _UNSPECIFIED
+  service_suffix: Service
+  rpc_allow_same_request_response: true
+  rpc_allow_google_protobuf_empty_requests: true
+  rpc_allow_google_protobuf_empty_responses: true
