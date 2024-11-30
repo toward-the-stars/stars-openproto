@@ -6,6 +6,9 @@ on:
       version:
         required: true
         type: string
+      environment:
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -14,6 +17,8 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.environment }}
     permissions:
       contents: read
       packages: write
