@@ -1,0 +1,59 @@
+# Dev 是內測階段，當features/* 或是 bugfix/*分支，使用pull request 方式合到release/*時，打包Dev進行部署並通知QAteam測試
+name: Release Dev Tag  # 工作流程的名稱
+
+on:               # 觸發條件
+  workflow_call:   # 當有 pull_request 事件時觸發
+    outputs:
+      version:
+        description: "產生的版本號，沒有v"
+        value: ${{ jobs.version.outputs.version }}
+      prod-version:
+        description: "生產環境目標版本號，拿掉-之後"
+        value: ${{ jobs.version.outputs.prod-version }}
+
+env:
+  VERSION:
+  PROD_VERSION:
+  LATEST_TAG:
+  DEV_TAG:
+
+jobs:
+
+  # check-merged:
+  #   if: github.event.pull_request.merged == false
+  #   runs-on: ubuntu-latest  # 在 Ubuntu 最新版本上執行
+  #   steps:  # 步驟
+  #   - name: Pull Request 未合併，終止Action # 檢查程式庫
+  #     run: |
+  #       throw "Pull Request 未合併，終止Action"
+
+  version:  # 工作名稱
+    if: github.event.pull_request.merged == false
+    runs-on: ubuntu-latest  # 在 Ubuntu 最新版本上執行
+    permissions:
+      contents: write  # This is required for actions/checkout
+    outputs:
+      version: ${{ env.VERSION }}
+      prod-version: ${{ env.PROD_VERSION }}
+    steps:  # 步驟
+      - name: 01.Checkout Repository 檢查程式庫   # 檢查程式庫
+        uses: actions/checkout@v4               # 使用 GitHub 官方的 checkout 行動
+
+      - name: 02.Extract tag name 提取標籤名
+        run: |
+          LATEST_TAG=${GITHUB_REF#refs/tags/}
+          VERSION=${LATEST_TAG#v}
+          PROD_VERSION=${VERSION%-*}
+          echo VERSION=${LATEST_TAG#v}    >> $GITHUB_ENV
+          echo PROD_VERSION=${VERSION%-*} >> $GITHUB_ENV
+          echo "VERSION: $VERSION"
+          echo "PROD_VERSION: $PROD_VERSION"
+
+        # 執行的命令：在環境變數中設定 VERSION github.ref 中提取，
+        # 去掉前綴 'refs/tags/'，這樣就得到了真正的標籤名。
+        # 然後將這個變量和它的值寫入到 GitHub 環境變量檔案中，這樣其他步驟也可以使用這個變量。
+
+      - name: 03.show ENV
+        run: |
+          echo "VERSION: ${{ env.VERSION }}"
+          echo "PROD_VERSION: ${{ env.PROD_VERSION }}"

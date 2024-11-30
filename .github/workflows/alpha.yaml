@@ -10,12 +10,12 @@ on: # 觸發條件
 
 jobs:
   version: # 工作名稱
-    uses: toward-the-stars/workflows/.github/workflows/tag-alpha.yaml@main
+    uses: ./.github/workflows/tag-alpha.yaml
     permissions:
       contents: write
     secrets: inherit
 
-  web:
+  package:
     needs: version
     uses: ./.github/workflows/packages-pnpm.yaml
     permissions:
@@ -25,40 +25,3 @@ jobs:
     with:
       version: ${{ needs.version.outputs.version }}
       environment: alpha
-
-  ecr:
-    needs:
-      - version
-      - web
-    uses: toward-the-stars/workflows/.github/workflows/ecr-web-nginx.yaml@main
-    secrets: inherit
-    permissions:
-      contents: read
-      id-token: write
-    with:
-      version: ${{ needs.version.outputs.version }}
-      environment: alpha
-      role-to-assume: ${{ vars.AWS_NONPROD_ARTIFAT_ROLE_ARN }}
-      aws-region: ${{ vars.AWS_REGION }}
-      ecr-repository: ${{ github.repository }}
-
-  helm:
-    needs:
-      - version
-      - ecr
-    runs-on: ubuntu-latest
-    steps:
-      - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v3
-        with:
-          token: ${{ secrets.DISPATCH_DEPLOYMENT_TOKEN }}
-          repository: toward-the-stars/stars-helm
-          event-type: ${{ github.repository }}
-          client-payload: |
-            {
-              "repository": "${{ github.repository }}",
-              "prod-version": "${{ needs.version.outputs.prod-version }}",
-              "stage": "alpha",
-              "version": "${{ needs.version.outputs.version }}",
-              "role-to-assume": "${{ vars.AWS_NONPROD_ARTIFAT_ROLE_ARN }}"
-            }
