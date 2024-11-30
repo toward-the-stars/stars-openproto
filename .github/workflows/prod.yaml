@@ -21,7 +21,7 @@ jobs:
     uses: ./.github/workflows/packages-pnpm.yaml
     permissions:
       contents: read
-      packages: read
+      packages: write
     secrets: inherit
     with:
       version: ${{ needs.version.outputs.version }}
