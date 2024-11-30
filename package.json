@@ -1,9 +1,9 @@
 {
-  "name": "@toward-the-stars/stars-core",
+  "name": "@toward-the-stars/stars-openproto",
   "version": "1.0.0",
   "description": "stars typescript esnext lib",
   "author": "Kuanwen Lai <kwlai0927@gmail.com> (https://github.com/kwlai0927)",
-  "repository": "https://github.com/toward-the-stars/stars-core",
+  "repository": "https://github.com/toward-the-stars/stars-openproto",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
