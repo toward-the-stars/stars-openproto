@@ -1,0 +1,7 @@
+syntax = "proto3";
+package model.v1;
+
+// The request message containing the user's name.
+message ShareModel {
+  string name = 1;
+}

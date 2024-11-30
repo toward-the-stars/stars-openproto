@@ -1,0 +1,57 @@
+name: Publish package to GitHub Packages
+
+on: 
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Check Out
+        uses: actions/checkout@v4
+
+      # 參考 https://github.com/pnpm/action-setup
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      # Setup .npmrc file to publish to GitHub Packages
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: 'https://npm.pkg.github.com'
+          # Defaults to the user or organization that owns the workflow file
+          scope: '@toward-the-stars'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: |
+          pnpm install
+          pnpm gen:buf
+
+      - name: Set package.json version
+        id: package-version
+        uses: jaywcjlove/github-action-package@main
+        with:
+          data: |
+            {
+              "version": "${{ inputs.version }}"
+            }
+
+      - name: Publish package
+        run: pnpm publish --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
