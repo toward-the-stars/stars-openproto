@@ -1,2 +1,3 @@
 lib/
 !lib/package.json
+!lib/README.md

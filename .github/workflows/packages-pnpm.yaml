@@ -46,6 +46,7 @@ jobs:
         run: |
           pnpm install
           pnpm gen:buf
+          pnpm buf:push
 
       - name: Set package.json version
         id: package-version
