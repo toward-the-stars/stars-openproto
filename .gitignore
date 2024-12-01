@@ -1,5 +1,8 @@
 *.env
 
+.local
+.local.*
+*.local
 *.local.*
 *__pycache__*
 main
