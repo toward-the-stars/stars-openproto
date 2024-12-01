@@ -46,6 +46,11 @@ jobs:
         run: |
           pnpm install
           pnpm gen:buf
+
+      - name: Push to buf.build
+        env:
+          BUF_TOKEN: ${{ secrets.BUF_TOKEN }}
+        run: |
           pnpm buf:push
 
       - name: Set package.json version
