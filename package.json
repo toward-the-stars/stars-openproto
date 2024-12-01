@@ -5,7 +5,8 @@
   "author": "Kuanwen Lai <kwlai0927@gmail.com> (https://github.com/kwlai0927)",
   "repository": "https://github.com/toward-the-stars/stars-openproto",
   "scripts": {
-    "gen:buf": "npx buf generate | tsc"
+    "buf:tidy": "npx buf dep update | npx buf dep prune",
+    "buf:gen": "npx buf generate | tsc"
   },
   "devDependencies": {
     "typescript": "^5.3.3"

@@ -12,6 +12,10 @@ on:
       environment:
         required: true
         type: string
+      package-directory:
+        required: false
+        type: string
+        default: es/lib
 
 permissions:
   contents: read
@@ -48,7 +52,13 @@ jobs:
       - name: Install dependencies
         run: |
           pnpm install
-          pnpm gen:buf
+
+      - name: Gen Code
+        run: |
+          npx buf dep prune
+          npx buf dep update
+          npx buf generate
+          tsc
 
       - name: Push to buf.build
         env:
@@ -60,14 +70,14 @@ jobs:
         id: package-version
         uses: jaywcjlove/github-action-package@main
         with:
-          path: es/lib/package.json
+          path: ${{ inputs.package-directory }}/package.json
           data: |
             {
               "version": "${{ inputs.version }}"
             }
 
       - name: Publish package
-        working-directory: es/lib
+        working-directory: ${{ inputs.package-directory }}
         run: pnpm publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
