@@ -1,9 +1,6 @@
 *.env
 
-*.local
-.local
-*.local.yaml
-*.local.yml
+*.local.*
 *__pycache__*
 main
 
@@ -12,12 +9,8 @@ config.compose.yaml
 node_modules
 package-lock.json
 
-node_modules
-
 .vscode
-__debug_bin
 
 *.exe
-stars-proto
 
 *__debug_bin*
