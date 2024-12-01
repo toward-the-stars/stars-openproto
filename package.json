@@ -6,7 +6,6 @@
   "repository": "https://github.com/toward-the-stars/stars-openproto",
   "scripts": {
     "gen:buf": "npx buf generate | tsc",
-    "buf:push": "buf push"
   },
   "devDependencies": {
     "typescript": "^5.3.3"
