@@ -21,4 +21,5 @@ jobs:
     secrets: inherit
     with:
       version: ${{ needs.version.outputs.version }}
+      prod-version: ${{ needs.version.outputs.prod-version }}
       environment: dev
