@@ -6,6 +6,9 @@ on:
       version:
         required: true
         type: string
+      prod-version:
+        required: true
+        type: string
       environment:
         required: true
         type: string
@@ -46,7 +49,12 @@ jobs:
         run: |
           pnpm install
           pnpm gen:buf
-          pnpm buf:push
+
+      - name: Push to buf.build
+        env:
+          BUF_TOKEN: ${{ secrets.BUF_TOKEN }}
+        run: |
+          buf push --label ${{ inputs.version }} --label ${{ inputs.prod-version }}
 
       - name: Set package.json version
         id: package-version
