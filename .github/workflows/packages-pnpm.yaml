@@ -57,7 +57,7 @@ jobs:
         env:
           BUF_TOKEN: ${{ secrets.BUF_TOKEN }}
         run: |
-          npx buf push --label v${{ inputs.version }} --label v${{ inputs.prod-version }} ${{ inputs.main && '--label main' || ''}}
+          npx buf push --label v${{ inputs.version }} --label v${{ inputs.prod-version }}-${{ inputs.environment }}.x ${{ inputs.main && '--label main' || ''}}
 
       - name: Set package.json version
         id: package-version
