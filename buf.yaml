@@ -1,20 +1,8 @@
 version: v2
 
 modules:
-  - path: proto/toward-the-stars
-  #   name: buf.build/toward-the-stars/model
-  #   includes:
-  #     - proto/toward-the-stars/model
-
-  # - path: proto/toward-the-stars
-  #   name: buf.build/toward-the-stars/frontapi
-  #   includes:
-  #     - proto/toward-the-stars/frontapi
-
-  # - path: proto/toward-the-stars
-  #   name: buf.build/toward-the-stars/tellerapi
-  #   includes:
-  #     - toward-the-stars/tellerapi
+  - path: proto
+    name: buf.build/toward-the-stars/public
 
 deps:
   - buf.build/googleapis/googleapis

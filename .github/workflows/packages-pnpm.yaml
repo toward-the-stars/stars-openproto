@@ -51,6 +51,7 @@ jobs:
         id: package-version
         uses: jaywcjlove/github-action-package@main
         with:
+          path: es/lib/package.json
           data: |
             {
               "version": "${{ inputs.version }}"

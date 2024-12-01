@@ -4,16 +4,9 @@
   "description": "stars typescript esnext lib",
   "author": "Kuanwen Lai <kwlai0927@gmail.com> (https://github.com/kwlai0927)",
   "repository": "https://github.com/toward-the-stars/stars-openproto",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
-  "files": [
-    "gen/es/*"
-  ],
-  "main": "es/lib/index.js",
-  "types": "es/lib/index.d.ts",
   "scripts": {
-    "gen:buf": "npx buf generate | tsc"
+    "gen:buf": "npx buf generate | tsc",
+    "buf:push": "buf push"
   },
   "devDependencies": {
     "typescript": "^5.3.3"
