@@ -1,5 +1,7 @@
 *.env
 
+*.DS_Store
+
 *.local
 .local
 *.local.yaml
